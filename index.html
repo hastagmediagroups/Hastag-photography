@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hastag Photography — Freeze. Feel. Forever.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0e0b0f;
+      --cream:     #faf6f1;
+      --blush:     #e8c4c4;
+      --magenta:   #c0356a;
+      --deep:      #7a1040;
+      --gold:      #c9913a;
+      --muted:     #6b5b63;
+      --display:   'Cormorant Garamond', Georgia, serif;
+      --body:      'Poppins', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--body);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4vw;
+      background: linear-gradient(to bottom, rgba(14,11,15,0.95), transparent);
+      backdrop-filter: blur(2px);
+    }
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--magenta); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--magenta);
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--deep); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 4vw 6vh;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #1a0a12 0%, #0e0b0f 50%, #12060e 100%);
+    }
+    /* ── HERO BOKEH LIGHTS — signature ambient element ── */
+    .bokeh-wrap {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .bokeh {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.12;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .bokeh:nth-child(1){ width:320px;height:320px;background:var(--magenta);top:-80px;right:10%;animation-duration:14s; }
+    .bokeh:nth-child(2){ width:200px;height:200px;background:var(--gold);top:30%;right:30%;animation-duration:10s;opacity:0.08; }
+    .bokeh:nth-child(3){ width:260px;height:260px;background:var(--deep);bottom:10%;right:5%;animation-duration:16s; }
+    .bokeh:nth-child(4){ width:180px;height:180px;background:var(--magenta);bottom:20%;right:40%;animation-duration:11s;opacity:0.07; }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(-30px, 20px) scale(1.08); }
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1rem;
+      position: relative; z-index: 2;
+    }
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(3rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      position: relative; z-index: 2;
+      max-width: 800px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--magenta);
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: var(--blush);
+      opacity: 0.75;
+      max-width: 420px;
+      position: relative; z-index: 2;
+    }
+    .hero-actions {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; align-items: center;
+      position: relative; z-index: 2;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--magenta);
+      color: var(--cream);
+      padding: 0.85rem 2rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--deep); transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--cream);
+      padding: 0.85rem 2rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 2px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--magenta); transform: translateY(-1px); }
+    .hero-stat-row {
+      position: relative; z-index: 2;
+      margin-top: 3rem;
+      display: flex; gap: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .hero-stat strong {
+      display: block;
+      font-family: var(--display);
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-stat span {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 6rem 4vw; }
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .section-title em { font-style: italic; color: var(--magenta); }
+
+    /* ── SERVICES ── */
+    .services { background: #120910; }
+    .services-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5px;
+      background: rgba(255,255,255,0.05);
+    }
+    .service-card {
+      background: #120910;
+      padding: 2.5rem 2rem;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .service-card:hover { background: #1c0e17; }
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+    }
+    .service-name {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+    .service-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .service-tag {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      border: 1px solid var(--magenta);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+    }
+
+    /* ── PORTFOLIO ── */
+    .portfolio { background: var(--ink); }
+    .portfolio-intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .portfolio-filter {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 2px;
+      background: none;
+      color: var(--cream);
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--magenta);
+      color: var(--magenta);
+      opacity: 1;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 6px;
+    }
+    .p-item {
+      overflow: hidden;
+      border-radius: 2px;
+      position: relative;
+      background: #1a0d15;
+    }
+    .p-item:nth-child(1) { grid-column: span 7; aspect-ratio: 16/10; }
+    .p-item:nth-child(2) { grid-column: span 5; aspect-ratio: 4/3; }
+    .p-item:nth-child(3) { grid-column: span 4; aspect-ratio: 4/3; }
+    .p-item:nth-child(4) { grid-column: span 4; aspect-ratio: 4/3; }
+    .p-item:nth-child(5) { grid-column: span 4; aspect-ratio: 4/3; }
+    .p-item:nth-child(6) { grid-column: span 6; aspect-ratio: 3/2; }
+    .p-item:nth-child(7) { grid-column: span 6; aspect-ratio: 3/2; }
+    .p-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #1a0d15, #2a1020);
+      color: rgba(255,255,255,0.2);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.3s;
+    }
+    .p-placeholder:hover { background: linear-gradient(135deg, #2a1020, #3a1530); }
+    .p-placeholder-icon { font-size: 2rem; opacity: 0.3; }
+    .p-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(14,11,15,0.85) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex; align-items: flex-end; padding: 1.2rem;
+    }
+    .p-item:hover .p-overlay { opacity: 1; }
+    .p-label {
+      font-family: var(--display);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--cream);
+    }
+
+    /* ── PROCESS ── */
+    .process { background: #0a0608; }
+    .process-steps {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+    }
+    .process-step {
+      padding: 2rem;
+      border-left: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+    }
+    .process-step:first-child { border-left: none; }
+    .step-num {
+      font-family: var(--display);
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--magenta);
+      opacity: 0.15;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .step-title {
+      font-family: var(--display);
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .step-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: var(--ink); }
+    .testimonials-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .testimonial-card {
+      background: #120910;
+      padding: 2rem;
+      border-radius: 2px;
+      border-top: 2px solid var(--magenta);
+      position: relative;
+    }
+    .testimonial-quote {
+      font-family: var(--display);
+      font-size: 3rem;
+      color: var(--magenta);
+      opacity: 0.3;
+      line-height: 0.8;
+      margin-bottom: 0.5rem;
+    }
+    .testimonial-text {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: rgba(250,246,241,0.8);
+      font-style: italic;
+    }
+    .testimonial-author {
+      margin-top: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .author-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--magenta), var(--deep));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+    .author-event {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* ── PACKAGES ── */
+    .packages { background: #120910; }
+    .packages-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    .pkg {
+      background: #120910;
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+    .pkg.featured {
+      background: linear-gradient(160deg, #1e0a16, #120910);
+      border-top: 2px solid var(--magenta);
+    }
+    .pkg-badge {
+      position: absolute; top: -1px; right: 1.5rem;
+      background: var(--magenta);
+      color: white;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.75rem;
+    }
+    .pkg-name {
+      font-family: var(--display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+    .pkg-price {
+      font-family: var(--display);
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+      margin: 1rem 0 0.25rem;
+    }
+    .pkg-price-note {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .pkg-features {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .pkg-features li {
+      font-size: 0.82rem;
+      color: rgba(250,246,241,0.7);
+      display: flex; gap: 0.5rem; align-items: flex-start;
+    }
+    .pkg-features li::before {
+      content: '—';
+      color: var(--magenta);
+      flex-shrink: 0;
+    }
+    .pkg-cta {
+      display: block;
+      margin-top: 2rem;
+      text-align: center;
+      padding: 0.75rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--cream);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .pkg-cta:hover, .pkg.featured .pkg-cta {
+      background: var(--magenta);
+      border-color: var(--magenta);
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: linear-gradient(135deg, #1a0812 0%, #0e0b0f 100%);
+      text-align: center;
+      padding: 6rem 4vw;
+    }
+    .contact .section-title { font-size: clamp(2.5rem, 6vw, 5rem); }
+    .contact-sub {
+      margin: 1.5rem auto 0;
+      max-width: 480px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .contact-actions {
+      margin-top: 3rem;
+      display: flex; gap: 1rem; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: #25D366;
+      color: white;
+      padding: 1rem 2.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      font-weight: 500;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .wa-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    .contact-details {
+      margin-top: 3rem;
+      display: flex; gap: 3rem; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .contact-item {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .contact-item strong {
+      display: block;
+      color: var(--cream);
+      font-weight: 400;
+      margin-bottom: 0.2rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080508;
+      padding: 2rem 4vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-logo {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      color: var(--cream);
+    }
+    .footer-logo span { color: var(--magenta); }
+    .footer-tagline {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex; gap: 1.5rem; list-style: none;
+    }
+    .footer-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--magenta); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .portfolio-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .p-item { grid-column: span 1 !important; aspect-ratio: 4/3 !important; }
+      .hero-stat-row { gap: 1.5rem; }
+      .process-steps { grid-template-columns: 1fr; }
+      .process-step { border-left: none; border-top: 1px solid rgba(255,255,255,0.05); }
+      .process-step:first-child { border-top: none; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo"><span>#</span>Hastag Photography</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Work</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://wa.me/7448908047" class="nav-cta" target="_blank">Book Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="bokeh-wrap" aria-hidden="true">
+      <div class="bokeh"></div>
+      <div class="bokeh"></div>
+      <div class="bokeh"></div>
+      <div class="bokeh"></div>
+    </div>
+
+    <p class="hero-eyebrow">Chennai · Tamil Nadu · Est. 2018</p>
+    <h1 class="hero-title">Every frame<br>tells a <em>story</em><br>worth keeping.</h1>
+    <p class="hero-sub">Premium wedding & event cinematography, ad commercials, and content creation — across Tamil Nadu.</p>
+    <div class="hero-actions">
+      <a href="https://wa.me/7448908047" class="btn-primary" target="_blank">
+        📲 Book Your Date
+      </a>
+      <a href="#portfolio" class="btn-ghost">View Our Work →</a>
+    </div>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><strong>350+</strong><span>Happy Clients</span></div>
+      <div class="hero-stat"><strong>6+</strong><span>Years Experience</span></div>
+      <div class="hero-stat"><strong>9/10</strong><span>Client Rating</span></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <p class="section-label reveal">What We Do</p>
+    <h2 class="section-title reveal">We don't just shoot.<br>We <em>craft narratives.</em></h2>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">💍</div>
+        <h3 class="service-name">Wedding Photography & Films</h3>
+        <p class="service-desc">From the mehendi glow to the final bidaai, we capture every emotion. Candid, traditional, and cinematic coverage tailored to your story.</p>
+        <span class="service-tag">Most Booked</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🎪</div>
+        <h3 class="service-name">Event Coverage</h3>
+        <p class="service-desc">Corporate events, product launches, school functions, cultural programs — professional multi-camera coverage across Tamil Nadu.</p>
+        <span class="service-tag">All TN</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🎬</div>
+        <h3 class="service-name">Ad Commercials</h3>
+        <p class="service-desc">Brand films, product ads, and promotional videos with full production value. Script to screen — we handle everything.</p>
+        <span class="service-tag">Brand Ready</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">📱</div>
+        <h3 class="service-name">Content Marketing</h3>
+        <p class="service-desc">Reels, social media content, and digital creatives for businesses and content creators who want to stand out online.</p>
+        <span class="service-tag">For Creators</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="portfolio" id="portfolio">
+    <div class="portfolio-intro">
+      <div>
+        <p class="section-label reveal">Our Work</p>
+        <h2 class="section-title reveal">Frames that <em>feel.</em></h2>
+      </div>
+      <div class="portfolio-filter reveal">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Weddings</button>
+        <button class="filter-btn">Events</button>
+        <button class="filter-btn">Commercials</button>
+      </div>
+    </div>
+    <div class="portfolio-grid reveal">
+      <div class="p-item">
+        <div class="p-placeholder">
+          <div class="p-placeholder-icon">📸</div>
+          <img src="images/event1.jpg" alt="Wedding Photography" 
+     style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="p-overlay"><span class="p-label">Wedding Cinematic</span></div>
+      </div>
+      <div class="p-item">
+        <div class="p-placeholder">
+          <div class="p-placeholder-icon">💑</div>
+           <img src="images/event1.jpg" alt="Wedding Photography" 
+     style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="p-overlay"><span class="p-label">Pre-Wedding</span></div>
+      </div>
+      <div class="p-item">
+        <div class="p-placeholder">
+          <div class="p-placeholder-icon">🎊</div>
+           <img src="images/event1.jpg" alt="Wedding Photography" 
+     style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="p-overlay"><span class="p-label">Corporate Event</span></div>
+      </div>
+      <div class="p-item">
+        <div class="p-placeholder">
+          <div class="p-placeholder-icon">🌸</div>
+           <img src="images/event1.jpg" alt="Wedding Photography" 
+     style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="p-overlay"><span class="p-label">Candid</span></div>
+      </div>
+      <div class="p-item">
+        <div class="p-placeholder">
+          <div class="p-placeholder-icon">🎬</div>
+           <img src="images/event1.jpg" alt="Wedding Photography" 
+     style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="p-overlay"><span class="p-label">Brand Film</span></div>
+      </div>
+      <div class="p-item">
+        <div class="p-placeholder">
+          <div class="p-placeholder-icon">💃</div>
+           <img src="images/event1.jpg" alt="Wedding Photography" 
+     style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="p-overlay"><span class="p-label">Cultural</span></div>
+      </div>
+      <div class="p-item">
+        <div class="p-placeholder">
+          <div class="p-placeholder-icon">🌅</div>
+           <img src="images/event1.jpg" alt="Wedding Photography" 
+     style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="p-overlay"><span class="p-label">Portrait</span></div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:2rem; font-size:0.75rem; color:var(--muted); letter-spacing:0.08em;">
+      Replace placeholder boxes with your actual images using &lt;img&gt; tags
+    </p>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process">
+    <p class="section-label reveal">How We Work</p>
+    <h2 class="section-title reveal">From inquiry to<br><em>delivered memories</em></h2>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Consultation</h3>
+        <p class="step-desc">We understand your vision, venue, and requirements. A quick call or WhatsApp chat is all it takes.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Planning</h3>
+        <p class="step-desc">Shot list, timeline, team allocation — everything planned so your day runs smooth.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Shoot Day</h3>
+        <p class="step-desc">Our team arrives early, blends in, and captures every real moment — not just posed ones.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Editing</h3>
+        <p class="step-desc">Professional color grading, sound design, and cinematic editing — crafted with care.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">05</div>
+        <h3 class="step-title">Delivery</h3>
+        <p class="step-desc">High-resolution gallery and 4K films delivered digitally within your agreed timeline.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <p class="section-label reveal">Client Love</p>
+    <h2 class="section-title reveal">350+ families trust us<br>with their <em>forever moments.</em></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Balaji and team went above and beyond. Our wedding film made us cry every time we watched it. Every small detail was captured so beautifully.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">P</div>
+          <div>
+            <div class="author-name">Priya & Karthik</div>
+            <div class="author-event">Wedding — Chennai, 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Professional team, amazing editing style. Our product ad came out exactly as we imagined. Will definitely work with Hastag again for future campaigns.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">R</div>
+          <div>
+            <div class="author-name">Ramesh Kumar</div>
+            <div class="author-event">Brand Commercial — Coimbatore</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">They captured our corporate event so well. The highlight reel we shared with our team got amazing reactions. Punctual, creative, and very professional.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div>
+            <div class="author-name">Sathya Narayanan</div>
+            <div class="author-event">Corporate Event — Chennai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages" id="packages">
+    <p class="section-label reveal">Pricing</p>
+    <h2 class="section-title reveal">Transparent packages.<br><em>No surprises.</em></h2>
+    <div class="packages-grid" style="margin-top:3rem">
+      <div class="pkg reveal">
+        <h3 class="pkg-name">Essential</h3>
+        <p style="font-size:0.78rem; color:var(--muted)">Perfect for intimate events</p>
+        <div class="pkg-price">₹9,999</div>
+        <p class="pkg-price-note">Starting price — customised to your needs</p>
+        <ul class="pkg-features">
+          <li>1 Photographer</li>
+          <li>6 Hours Coverage</li>
+          <li>200+ Edited Photos</li>
+          <li>Online Gallery</li>
+          <li>Instant Delivery</li>
+        </ul>
+        <a href="https://wa.me/7448908047" class="pkg-cta" target="_blank">Enquire →</a>
+      </div>
+      <div class="pkg featured reveal">
+        <span class="pkg-badge">Most Popular</span>
+        <h3 class="pkg-name">Premium</h3>
+        <p style="font-size:0.78rem; color:var(--muted)">Full wedding day coverage</p>
+        <div class="pkg-price">₹29,999</div>
+        <p class="pkg-price-note">Starting price — customised to your needs</p>
+        <ul class="pkg-features">
+          <li>1 Photographers + 1 Videographer</li>
+          <li>Full Day Coverage</li>
+          <li>500+ Edited Photos</li>
+          <li>Cinematic Wedding Film</li>
+        </ul>
+        <a href="https://wa.me/7448908047" class="pkg-cta" target="_blank">Enquire →</a>
+      </div>
+      <div class="pkg reveal">
+        <h3 class="pkg-name">Commercial</h3>
+        <p style="font-size:0.78rem; color:var(--muted)">For brands & creators</p>
+        <div class="pkg-price" style="font-size:2rem;">Custom</div>
+        <p class="pkg-price-note">Quoted based on project scope</p>
+        <ul class="pkg-features">
+          <li>Ad Films & Brand Videos</li>
+          <li>Social Media Content</li>
+          <li>Product Photography</li>
+          <li>Full Post-Production</li>
+          <li>Usage Rights Included</li>
+        </ul>
+        <a href="https://wa.me/7448908047" class="pkg-cta" target="_blank">Enquire →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <p class="section-label reveal">Get In Touch</p>
+    <h2 class="section-title reveal">Your date is<br><em>waiting.</em></h2>
+    <p class="contact-sub reveal">Drop us a WhatsApp message and we'll get back to you within 2 hours. Covering weddings, events, and commercial shoots across Tamil Nadu.</p>
+    <div class="contact-actions reveal">
+      <a href="https://wa.me/7448908047?text=Hi%20Hastag%20Photography!%20I%27d%20like%20to%20book%20a%20session." class="wa-btn" target="_blank">
+        💬 WhatsApp Us Now
+      </a>
+      <a href="https://instagram.com/hastag.photography" class="btn-ghost" target="_blank">
+        Follow on Instagram →
+      </a>
+    </div>
+    <div class="contact-details reveal">
+      <div class="contact-item"><strong>Phone</strong>+91 74489 08047</div>
+      <div class="contact-item"><strong>Location</strong>Chennai, Tamil Nadu</div>
+      <div class="contact-item"><strong>Coverage</strong>All of Tamil Nadu</div>
+      <div class="contact-item"><strong>Instagram</strong>@hastag.photography</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo"><span>#</span>Hastag Photography</div>
+      <div class="footer-tagline" style="margin-top:0.3rem">Freeze. Feel. Forever.</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Work</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div style="font-size:0.7rem; color:var(--muted)">© 2025 Hastag Photography</div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Portfolio filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
